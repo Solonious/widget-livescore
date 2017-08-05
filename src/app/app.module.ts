@@ -1,9 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RoutingModule } from './routing/routing.module';
-import { WidgetService } from './services/widget.service';
+import { DataService } from './services/data.service';
 import { DialogService } from './services/dialog.service';
 
 import {
@@ -56,11 +57,12 @@ import { PopupComponent } from './components/options-popup/options-popup.compone
     MdIconModule,
     MdDialogModule,
     MdTooltipModule,
-    FormsModule
+    FormsModule,
+    HttpModule
   ],
 
   entryComponents: [PopupComponent],
-  providers: [WidgetService, DialogService],
+  providers: [DataService, DialogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

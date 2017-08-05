@@ -15,9 +15,9 @@
       <md-datepicker #to></md-datepicker>
 
         <div class="example-tooltip-host" mdTooltip="Country" [mdTooltipPosition]="position">
-          <md-select class="form-item" placeholder="Select country" [(ngModel)]="position" [(ngModel)]="selectedCountry" name="country">
-            <md-option *ngFor="let food of foods" [value]="food.value">
-              {{food.viewValue}}
+          <md-select class="form-item" placeholder="Select country" [(ngModel)]="position" [formControl]="country" name="country">
+            <md-option *ngFor="let item of countries" [value]="item.country_id">
+              {{item.country_name}}
             </md-option>
           </md-select>
         </div>
