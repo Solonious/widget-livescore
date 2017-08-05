@@ -1,0 +1,42 @@
+<h2 md-dialog-title align="center">Main settings</h2>
+<md-dialog-content align="center">
+  <md-select panelClass="form-item" placeholder="Current API" [formControl]="currentApiForm" name="current-api">
+    <md-option *ngFor="let item of apis" [value]="item.value">
+      {{item.title}}
+    </md-option>
+  </md-select>
+
+  <md-select  #interval class="form-item" placeholder="Update interval" name="interval">
+    <md-option *ngFor="let item of intervals" [value]="item">
+      {{item}} min
+    </md-option>
+  </md-select>
+</md-dialog-content>
+
+          <!--<div ngSwitch={{displayStatus}}>-->
+            <!--<ng-template ngSwitchCase="1">-->
+              <!--<div class="inline-form">-->
+                <!--<label class="mr-sm-2" for="inlineFormInput">API Key :</label>-->
+                <!--<input [formControl]="apiKeyForm" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput">-->
+              <!--</div>-->
+            <!--</ng-template>-->
+            <!--<ng-template ngSwitchCase="2">-->
+              <!--<div class="user-panel">-->
+                <!--<div class="inline-form">-->
+                  <!--<label class="mr-sm-2" for="inlineFormInput">API username :</label>-->
+                  <!--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput">-->
+                <!--</div>-->
+                <!--<div class="inline-form">-->
+                  <!--<label class="mr-sm-2" for="inlineFormInput">API password :</label>-->
+                  <!--<input type="password" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput">-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</ng-template>-->
+            <!--<ng-template ngSwitchDefault="0"></ng-template>-->
+          <!--</div>-->
+
+
+          <md-dialog-actions>
+            <button align="start" md-button md-dialog-close="true">Close</button>
+            <button align="end" md-button (click)="saveChanges()">Save settings</button>
+          </md-dialog-actions>

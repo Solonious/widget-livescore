@@ -1,0 +1,43 @@
+<h1 align="center">Live score</h1>
+<div class="container">
+    <md-card class="form-container">
+      <form>
+      <md-input-container class="form-item">
+        <input mdInput [mdDatepicker]="from" placeholder="From">
+        <button mdSuffix [mdDatepickerToggle]="from"></button>
+      </md-input-container>
+      <md-datepicker #from></md-datepicker>
+
+      <md-input-container class="form-item">
+        <input mdInput [mdDatepicker]="to" placeholder="to">
+        <button mdSuffix [mdDatepickerToggle]="to"></button>
+      </md-input-container>
+      <md-datepicker #to></md-datepicker>
+
+        <div class="example-tooltip-host" mdTooltip="Country" [mdTooltipPosition]="position">
+          <md-select class="form-item" placeholder="Select country" [(ngModel)]="position" [(ngModel)]="selectedCountry" name="country">
+            <md-option *ngFor="let food of foods" [value]="food.value">
+              {{food.viewValue}}
+            </md-option>
+          </md-select>
+        </div>
+        <md-select class="form-item" placeholder="Select league" [(ngModel)]="selectedLeague" name="league">
+          <md-option *ngFor="let food of foods" [value]="food.value">
+            {{food.viewValue}}
+          </md-option>
+        </md-select>
+
+        <button class="form-item" md-button>Search</button>
+        <button class="form-item" (click)="openDialog()" md-button><md-icon class="icon-btn">settings</md-icon></button>
+  </form>
+</md-card>
+  <md-card>
+    <md-tab-group>
+      <md-tab label="Tab 1">
+        <app-table></app-table>
+      </md-tab>
+      <md-tab label="Tab 2">Content 2</md-tab>
+    </md-tab-group>
+  </md-card>
+
+</div>
