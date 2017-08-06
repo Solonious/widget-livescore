@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RoutingModule } from './routing/routing.module';
 import { DataService } from './services/data.service';
+import { DataTestService } from './services/data-test.service';
 import { DialogService } from './services/dialog.service';
 
 import {
@@ -22,6 +23,7 @@ import {
   MdIconModule,
   MdDialogModule,
   MdTooltipModule,
+  MdToolbarModule,
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk';
 
@@ -57,12 +59,13 @@ import { PopupComponent } from './components/options-popup/options-popup.compone
     MdIconModule,
     MdDialogModule,
     MdTooltipModule,
+    MdToolbarModule,
     FormsModule,
     HttpModule
   ],
 
   entryComponents: [PopupComponent],
-  providers: [DataService, DialogService],
+  providers: [DataService, DialogService, DataTestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

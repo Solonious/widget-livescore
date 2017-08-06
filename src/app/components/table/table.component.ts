@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, Input } from '@angular/core';
+import { Http } from '@angular/http';
 import {DataSource} from '@angular/cdk';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
@@ -12,78 +12,60 @@ import 'rxjs/add/operator/map';
   templateUrl: 'table.component.html',
 })
 export class TableComponent {
-  displayedColumns = ['userId', 'userName', 'progress', 'color'];
-  exampleDatabase = new ExampleDatabase();
-  dataSource: ExampleDataSource | null;
+  @Input() data: any;
+  displayedColumns = [
+    'countryName',
+    'leagueName',
+    'homeTeam',
+    'awayTeam',
+    'homeAwayScore',
+    'matchStatus',
+    'matchDate',
+    'matchTime'
+  ];
+  tableDatabase: TableDatabase | null;
+  dataSource: TableDataSource | null;
 
-  ngOnInit() {
-    this.dataSource = new ExampleDataSource(this.exampleDatabase);
+  constructor(http: Http) {
+    this.tableDatabase = new TableDatabase(http);
+    this.dataSource = new TableDataSource(this.tableDatabase);
   }
 }
 
-/** Constants used to fill up our data base. */
-const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
-  'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'];
-const NAMES = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
-  'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
-  'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
-
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  color: string;
+export interface EventsData {
+  match_id: number;
+  country_id: number;
+  country_name: string;
+  league_id: number;
+  league_name: string;
+  match_date: string;
+  match_status: string;
+  match_time: string;
+  match_hometeam_name: string;
+  match_hometeam_score: number;
+  match_awayteam_name: string;
+  match_awayteam_score: number;
+  match_hometeam_halftime_score: number;
+  match_awayteam_halftime_score: number;
+  match_live: number;
+  goalscorer: [any];
 }
 
-/** An example database that the data source uses to retrieve data for the table. */
-export class ExampleDatabase {
-  /** Stream that emits whenever the data has been modified. */
-  dataChange: BehaviorSubject<UserData[]> = new BehaviorSubject<UserData[]>([]);
-  get data(): UserData[] { return this.dataChange.value; }
-
-  constructor() {
-    // Fill up the database with 100 users.
-    for (let i = 0; i < 100; i++) { this.addUser(); }
-  }
-
-  /** Adds a new user to the database. */
-  addUser() {
-    const copiedData = this.data.slice();
-    copiedData.push(this.createNewUser());
-    this.dataChange.next(copiedData);
-  }
-
-  /** Builds and returns a new User. */
-  private createNewUser() {
-    const name =
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
-    return {
-      id: (this.data.length + 1).toString(),
-      name: name,
-      progress: Math.round(Math.random() * 100).toString(),
-      color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
-    };
-  }
+export class TableDatabase {
+  private dataUrl = 'http://localhost:4200/assets/mocks/events.json';
+  getTableData(): Observable<EventsData[]> {
+    return this.http.get(this.dataUrl).map(res => res.json() as EventsData[]);
+    }
+  constructor(private http: Http) {}
 }
 
-/**
- * Data source to provide what data should be rendered in the table. Note that the data source
- * can retrieve its data in any way. In this case, the data source is provided a reference
- * to a common data base, ExampleDatabase. It is not the data source's responsibility to manage
- * the underlying data. Instead, it only needs to take the data and send the table exactly what
- * should be rendered.
- */
-export class ExampleDataSource extends DataSource<any> {
-  constructor(private _exampleDatabase: ExampleDatabase) {
+export class TableDataSource extends DataSource<EventsData> {
+  constructor(private _tableDatabase: TableDatabase) {
     super();
   }
 
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<UserData[]> {
-    return this._exampleDatabase.dataChange;
+  connect(): Observable<EventsData[]> {
+    return this._tableDatabase.getTableData();
   }
-
   disconnect() {}
 }

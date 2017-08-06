@@ -4,28 +4,53 @@
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
-    <!-- ID Column -->
-    <ng-container cdkColumnDef="userId">
-      <md-header-cell *cdkHeaderCellDef> ID </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.id}} </md-cell>
+    <!-- Country Column -->
+    <ng-container cdkColumnDef="countryName">
+      <md-header-cell *cdkHeaderCellDef> Country Name  </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.country_name}} </md-cell>
     </ng-container>
 
-    <!-- Progress Column -->
-    <ng-container cdkColumnDef="progress">
-      <md-header-cell *cdkHeaderCellDef> Progress </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.progress}}% </md-cell>
+    <!-- League Column -->
+    <ng-container cdkColumnDef="leagueName">
+      <md-header-cell *cdkHeaderCellDef> League Name </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.league_name}} </md-cell>
+    </ng-container>
+
+    <!-- HoeTeam Column -->
+    <ng-container cdkColumnDef="homeTeam">
+      <md-header-cell *cdkHeaderCellDef> Home team </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.match_hometeam_name}} </md-cell>
+    </ng-container>
+
+
+    <!-- HoeTeam Column -->
+    <ng-container cdkColumnDef="awayTeam">
+      <md-header-cell *cdkHeaderCellDef> Away team </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.match_hometeam_name}} </md-cell>
     </ng-container>
 
     <!-- Name Column -->
-    <ng-container cdkColumnDef="userName">
-      <md-header-cell *cdkHeaderCellDef> Name </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.name}} </md-cell>
+    <ng-container cdkColumnDef="homeAwayScore">
+      <md-header-cell *cdkHeaderCellDef> Home/Away score </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.match_hometeam_score}} </md-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container cdkColumnDef="matchStatus">
+      <md-header-cell *cdkHeaderCellDef> Match status </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.match_status}} </md-cell>
     </ng-container>
 
     <!-- Color Column -->
-    <ng-container cdkColumnDef="color">
-      <md-header-cell *cdkHeaderCellDef>Color</md-header-cell>
-      <md-cell *cdkCellDef="let row" [style.color]="row.color"> {{row.color}} </md-cell>
+    <ng-container cdkColumnDef="matchDate">
+      <md-header-cell *cdkHeaderCellDef>Match date</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.match_date}} </md-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container cdkColumnDef="matchTime">
+      <md-header-cell *cdkHeaderCellDef> Match time </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.match_time}} </md-cell>
     </ng-container>
 
     <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>

@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
@@ -11,11 +12,13 @@ import { Countries } from '../shared/countries';
 import { Leagues } from '../shared/leagues';
 
 @Injectable()
-export class DataService {
-  apiFootbal = 'https://apifootball.com/api/?action=';
-  // apiFootbal: string;
-  APIkey = '3681972507b2eda3b2f50a5e4db9e7dc3b802789b7295e237247a7784faa15a3';
-  // APIkey: string;
+export class DataTestService {
+  apiFootbal = environment.host;
+  countriesApi = environment.countries;
+  leaguesApi = environment.leagues;
+  eventsApi = environment.events;
+  countries: Countries[];
+  leagues: Leagues[];
   constructor(private http: Http) { }
 
   private handleError(error: any): Observable<any> {
@@ -23,24 +26,18 @@ export class DataService {
     return Observable.throw(error.message || error);
   }
   getCountries(): Observable<Countries[]> {
-    return this.http.get(`${this.apiFootbal}get_countries&APIkey=${this.APIkey}`)
-      .map(res => res.json() as Countries[])
+    return this.http.get(`${this.apiFootbal}/${this.countriesApi}`)
+      .map(res => this.countries = res.json() as Countries[])
       .catch(this.handleError);
   }
   getLeagues(id: any): Observable<Leagues[]> {
-    return this.http.get(`${this.apiFootbal}get_leagues&country_id=${id}&APIkey=${this.APIkey}`)
+    return this.http.get(`${this.apiFootbal}/${this.leaguesApi}`)
       .map(res => res.json() as Leagues[])
       .catch(this.handleError);
   }
   getEvents(from: any, to: any, league_id: number): Observable<any> {
-    return this.http.get(`${this.apiFootbal}get_events&from=${from}&to=${to}&league_id=${league_id}&APIkey=${this.APIkey}`)
+    return this.http.get(`${this.apiFootbal}/${this.eventsApi}`)
       .map(res => res.json() as any)
       .catch(this.handleError);
-  }
-  setApiKey(key: string): void {
-    this.APIkey = key;
-  }
-  setCurrentApi(key: string): void {
-    this.apiFootbal = key;
   }
 }

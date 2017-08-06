@@ -2,27 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {MdDialog} from '@angular/material';
 import { PopupComponent } from '../options-popup/options-popup.component';
+import { environment } from '../../../environments/environment';
 
 import { DataService } from '../../services/data.service';
 
 import { Countries } from '../../shared/countries';
 import { Leagues } from '../../shared/leagues';
+import {DataTestService} from '../../services/data-test.service';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.css'],
+  providers: [DataService, DataTestService]
 })
 export class MainComponent implements OnInit {
   selectedLeague: string;
   selectedCountry: string;
   selectedOption: string;
-  position = 'below';
-  foods = [
-    {value: 'steak-0', viewValue: 'Steak'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'}
-  ];
   countries: Countries[];
   leagues: Leagues[];
   league_id: number;
@@ -37,8 +34,10 @@ export class MainComponent implements OnInit {
   loading = false;
   constructor(
     public dialog: MdDialog,
-    private dataService: DataService
-    ) { }
+    private dataService: DataService,
+    private dataTestService: DataTestService
+    ) {
+  }
 
   ngOnInit() {
     this.getCountries();
@@ -50,8 +49,9 @@ export class MainComponent implements OnInit {
     });
   }
   getCountries(): void {
+    const service = (environment.production) ? this.dataService : this.dataTestService;
     this.loading = true;
-    this.dataService.getCountries()
+    service.getCountries()
       .subscribe(res => {
         this.countries = res;
         this.loading = false;
@@ -59,10 +59,10 @@ export class MainComponent implements OnInit {
   }
   getLeagues(id: any): void {
     this.loading = true;
-    this.dataService.getLeagues(id)
+    const service = (environment.production) ? this.dataService : this.dataTestService;
+    service.getLeagues(id)
       .subscribe(res => {
-          this.leagues = res;
-          console.log(res);
+        this.leagues = res.filter(item => item.country_id === id);
           this.loading = false;
         },
         err => {
@@ -73,21 +73,25 @@ export class MainComponent implements OnInit {
   getEvents(): void {
     this.displayStatus = 3;
     this.loading = true;
-    this.dataService.getEvents(this.dateFrom.value, this.dateTo.value, this.league_id)
+    const service = (environment.production) ? this.dataService : this.dataTestService;
+    service.getEvents(this.dateFrom.value, this.dateTo.value, this.league_id)
       .subscribe(res => {
           if (res.error) {
             this.errorTitle = res.message;
             this.displayStatus = 1;
-            console.log(res);
             this.loading = false;
           }
           this.tableDataTabs.push({time: new Date(), data: res});
+          console.log(this.tableDataTabs);
           this.loading = false;
         },
         err => {
           this.error = err;
           this.loading = false;
           console.log(err)});
+  }
+  deleteTab(id: number): void {
+    this.tableDataTabs.splice(id, 1);
   }
   openDialog() {
     const dialogRef = this.dialog.open(PopupComponent, {

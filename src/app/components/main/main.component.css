@@ -4,6 +4,9 @@
   flex-wrap: nowrap;
   justify-content: center;
 }
+.icon {
+  cursor: pointer;
+}
 .form-item {
   margin: 0 1rem;
 }
@@ -20,4 +23,14 @@
 }
 .popup-component-container {
   background-color: green;
+}
+span .heading {
+
+}
+.close {
+  margin-left: 25px;
+  color: #ff0000
+}
+.example-spacer {
+  flex: 1 1 auto;
 }

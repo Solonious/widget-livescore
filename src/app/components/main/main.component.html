@@ -1,4 +1,12 @@
-<h1 align="center">Live score</h1>
+<md-toolbar color="warn">
+    <span>Live score</span>
+    <span class="example-spacer"></span>
+    <span mdTooltip="Settings">
+      <a (click)="openDialog()">
+        <md-icon class="icon">settings</md-icon>
+      </a>
+    </span>
+</md-toolbar>
 <div class="container">
     <md-card class="form-container">
       <form>
@@ -14,29 +22,29 @@
       </md-input-container>
       <md-datepicker #to></md-datepicker>
 
-        <div class="example-tooltip-host" mdTooltip="Country" [mdTooltipPosition]="position">
-          <md-select class="form-item" placeholder="Select country" [(ngModel)]="position" [formControl]="country" name="country">
+          <md-select class="form-item" placeholder="Select country" [formControl]="country" name="country">
             <md-option *ngFor="let item of countries" [value]="item.country_id">
               {{item.country_name}}
             </md-option>
           </md-select>
-        </div>
-        <md-select class="form-item" placeholder="Select league" [(ngModel)]="selectedLeague" name="league">
-          <md-option *ngFor="let food of foods" [value]="food.value">
-            {{food.viewValue}}
+
+        <md-select class="form-item" placeholder="Select league" [formControl]="league" name="league">
+          <md-option *ngFor="let item of leagues" [value]="item.league_id">
+            {{item.league_name}}
           </md-option>
         </md-select>
 
-        <button class="form-item" md-button>Search</button>
-        <button class="form-item" (click)="openDialog()" md-button><md-icon class="icon-btn">settings</md-icon></button>
+        <button class="form-item" md-button (click)="getEvents()">Search</button>
   </form>
 </md-card>
   <md-card>
     <md-tab-group>
-      <md-tab label="Tab 1">
-        <app-table></app-table>
+      <md-tab *ngFor="let item of tableDataTabs; let i = index" id={{i+1}}>
+        <ng-template md-tab-label>
+          Search <b>{{item.time | date: "HH:mm:ss"}}</b><span class="close" (click)="deleteTab(i)">&times;</span>
+        </ng-template>
+        <app-table [data]="item.data"></app-table>
       </md-tab>
-      <md-tab label="Tab 2">Content 2</md-tab>
     </md-tab-group>
   </md-card>
 
