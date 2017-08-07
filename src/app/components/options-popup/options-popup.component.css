@@ -1,1 +1,6 @@
-
+form {
+  margin-top: 2rem;
+}
+md-select.mat-select {
+  margin: 17px;
+}

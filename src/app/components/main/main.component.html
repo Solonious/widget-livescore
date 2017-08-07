@@ -38,7 +38,7 @@
   </form>
 </md-card>
   <md-card>
-    <md-tab-group>
+    <md-tab-group [selectedIndex]="tableDataTabs.length">
       <md-tab *ngFor="let item of tableDataTabs; let i = index" id={{i+1}}>
         <ng-template md-tab-label>
           Search <b>{{item.time | date: "HH:mm:ss"}}</b><span class="close" (click)="deleteTab(i)">&times;</span>

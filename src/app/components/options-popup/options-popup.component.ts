@@ -26,4 +26,7 @@ export class PopupComponent {
   intervals = [5, 10, 15, 30, 60];
   displayStatus: number;
   constructor(public dialogRef: MdDialogRef<PopupComponent>) {}
+  save() {
+    console.log('Changes saved');
+  }
 }
